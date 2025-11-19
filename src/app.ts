@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 WebRoutes(app);
 app.use(express.static('public'));
+
 app.listen(PORT, () => {
     console.log(`My app running: ${PORT}`);
     console.log("env port: ", process.env.PORT)
