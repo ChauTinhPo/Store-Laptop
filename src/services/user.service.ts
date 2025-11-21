@@ -9,9 +9,11 @@ const handleCreateUser = async (
 
     const newUser = await prisma.user.create({
         data: {
-            name: fullname,
-            email: email,
-            address: address
+            fullName: fullname,
+            username: email,
+            address: address,
+            password: "",
+            accountType: "",
         }
     })
     return newUser;
@@ -21,10 +23,14 @@ const getAllUsers = async () => {
     const users = await prisma.user.findMany();
     return users;
 }
+const getAllRoles = async () => {
+    const roles = await prisma.role.findMany();
+    return roles;
+}
 const hanldeDeleteUser = async (id: string) => {
-   const result = await prisma.user.delete({
-       where:{id:+id}
-   })
+    const result = await prisma.user.delete({
+        where: { id: +id }
+    })
     return result;
 }
 const getUserById = async (id: string) => {
@@ -35,9 +41,12 @@ const updateUserById = async (id: string, email: string, address: string, fullna
     const updateUser = await prisma.user.update({
         where: { id: +id },
         data: {
-            name: fullname,
-            email: email,
-            address: address
+
+            fullName: fullname,
+            username: email,
+            address: address,
+            password: "",
+            accountType: "",
         }
     })
     return updateUser;
@@ -45,4 +54,4 @@ const updateUserById = async (id: string, email: string, address: string, fullna
 
 
 
-export { handleCreateUser, updateUserById, getAllUsers, hanldeDeleteUser, getUserById }  
+export { getAllRoles, handleCreateUser, updateUserById, getAllUsers, hanldeDeleteUser, getUserById }  
