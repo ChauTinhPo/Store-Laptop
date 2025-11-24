@@ -14,30 +14,36 @@ const getCreateUserPage = async (req: Request, res: Response) => {
 }
 const postCreateUser = async (req: Request, res: Response) => {
 
-    const { fullname, username, phone, role, address } = req.body;
-    // const a = await handleCreateUser(fullname, email, address)
-    return res.redirect("/")
+    const { fullName, username, phone, role, address } = req.body;
+    const file = req.file;
+    const avatar = file?.filename ?? null;
+    await handleCreateUser(fullName, username, address, phone, avatar, role)
+    return res.redirect("/admin/user")
 }
 const postDeleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const a = await hanldeDeleteUser(id);
-    return res.redirect("/")
+    return res.redirect("/admin/user")
 }
 const getViewUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const user = await getUserById(id);
-    return res.render("view-user.ejs",
+    const roles = await getAllRoles();
+    return res.render("admin/user/detail.ejs",
         {
             id: id,
-            user: user
+            user: user,
+            roles
         }
     )
 
 }
 const postUpdateUser = async (req: Request, res: Response) => {
-    const { id, email, address, fullname } = req.body;
-    const a = await updateUserById(id, email, address, fullname);
-    return res.redirect("/")
+    const { id, fullName, phone, role, address } = req.body;
+    const file = req.file;
+    const avatar = file?.filename ?? null;
+    await updateUserById(id, fullName, phone, role, address, avatar);
+    return res.redirect("/admin/user")
 }
 
 
