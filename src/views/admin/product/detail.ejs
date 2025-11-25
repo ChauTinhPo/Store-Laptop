@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Dự án laptopshop" />
+    <meta name="author" content="CongDuan" />
+    <title>Detail Product</title>
+
+    <link href="/admin/css/styles.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(() => {
+            $("#avatarFile").change(function (e) {
+                const imgURL = URL.createObjectURL(e.target.files[0]);
+                $("#avatarPreview").attr("src", imgURL).show();
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            background: #f5f7fa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title i {
+            color: #4a5568;
+            font-size: 1.75rem;
+        }
+
+        .card-modern {
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            border: 1px solid #e1e8ed;
+            background: #fff;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            padding: 10px 14px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            transition: background 0.2s;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            color: #fff;
+        }
+
+        #avatarPreview {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid #e5e7eb;
+            display: block;
+        }
+
+        .custom-breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .custom-breadcrumb .breadcrumb-item a {
+            color: #4a5568;
+            font-weight: 400;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .custom-breadcrumb .breadcrumb-item a:hover {
+            color: #2563eb;
+        }
+
+        .custom-breadcrumb .breadcrumb-item.active {
+            font-weight: 400;
+            color: #6b7280;
+        }
+
+        h3.fw-semibold {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-label.fw-medium {
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+    <%- include('../layout/header'); -%>
+        <div id="layoutSidenav">
+            <%- include('../layout/sidenav'); -%>
+
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4">
+                            <h1 class="mt-4 page-title">
+                                <i class="fa-solid fa-laptop"></i> Manage Product
+                            </h1>
+
+                            <!-- Breadcrumb -->
+                            <ol class="breadcrumb mb-4 custom-breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/admin">
+                                        <i class="fa-solid fa-house me-1"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="/admin/product">
+                                        <i class="fa-solid fa-laptop me-1"></i> Products
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <i class="fa-solid fa-eye me-1"></i> Details
+                                </li>
+                            </ol>
+
+                            <div class="row">
+                                <div class="col-lg-7 col-md-8 col-12 mx-auto">
+                                    <div class="card card-modern p-4">
+                                        <h3 class="mb-4 fw-semibold text-center">View Product
+                                            Detail</h3>
+
+                                        <form action="/admin/update-product" method="post"
+                                            enctype="multipart/form-data">
+                                            <input value="<%= product.id %>" name="id" type="hidden" />
+
+                                            <!-- Name -->
+                                            <div class="mb-3">
+                                                <label class="form-label fw-medium">Name</label>
+                                                <input value="<%= product.name %>" name="name" type="text"
+                                                    class="form-control" />
+                                            </div>
+
+                                            <!-- Description -->
+                                            <div class="mb-3">
+                                                <label class="form-label fw-medium">Description</label>
+                                                <textarea name="detailDesc" class="form-control" rows="3">
+<%= product.detailDesc %></textarea>
+                                            </div>
+
+                                            <!-- Short Description -->
+                                            <div class="mb-3">
+                                                <label class="form-label fw-medium">Short
+                                                    Description</label>
+                                                <textarea name="shortDesc" class="form-control" rows="2">
+<%= product.shortDesc %></textarea>
+                                            </div>
+
+                                            <!-- Price & Quantity -->
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label fw-medium">Price</label>
+                                                    <input value="<%= product.price %>" type="text" class="form-control"
+                                                        name="price" />
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label fw-medium">Quantity</label>
+                                                    <input value="<%= product.quantity %>" type="text"
+                                                        class="form-control" name="quantity" />
+                                                </div>
+                                            </div>
+
+                                            <!-- Target & Factory -->
+                                            <div class="row">
+                                                <!-- Target -->
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label fw-medium">Target</label>
+                                                    <select name="target" class="form-select">
+                                                        <option value="GAMING" <%=product.target==='GAMING' ? 'selected'
+                                                            : '' %>>
+                                                            Gaming
+                                                        </option>
+                                                        <option value="SINHVIEN-VANPHONG"
+                                                            <%=product.target==='SINHVIEN-VANPHONG' ? 'selected' : '' %>
+                                                            >
+                                                            Sinh viên - Văn phòng
+                                                        </option>
+                                                        <option value="THIET-KE-DO-HOA"
+                                                            <%=product.target==='THIET-KE-DO-HOA' ? 'selected' : '' %>>
+                                                            Thiết kế đồ họa
+                                                        </option>
+                                                        <option value="MONG-NHE" <%=product.target==='MONG-NHE'
+                                                            ? 'selected' : '' %>>
+                                                            Mỏng nhẹ
+                                                        </option>
+                                                        <option value="DOANH-NHAN" <%=product.target==='DOANH-NHAN'
+                                                            ? 'selected' : '' %>>
+                                                            Doanh nhân
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Factory -->
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label fw-medium">Factory</label>
+                                                    <select name="factory" class="form-select">
+                                                        <option value="APPLE" <%=product.factory==='APPLE' ? 'selected'
+                                                            : '' %>>
+                                                            Apple (Macbook)
+                                                        </option>
+                                                        <option value="ASUS" <%=product.factory==='ASUS' ? 'selected'
+                                                            : '' %>>
+                                                            Asus
+                                                        </option>
+                                                        <option value="LENOVO" <%=product.factory==='LENOVO'
+                                                            ? 'selected' : '' %>>
+                                                            Lenovo
+                                                        </option>
+                                                        <option value="DELL" <%=product.factory==='DELL' ? 'selected'
+                                                            : '' %>>
+                                                            Dell
+                                                        </option>
+                                                        <option value="LG" <%=product.factory==='LG' ? 'selected' : ''
+                                                            %>>
+                                                            LG
+                                                        </option>
+                                                        <option value="ACER" <%=product.factory==='ACER' ? 'selected'
+                                                            : '' %>>
+                                                            Acer
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Avatar Upload + Preview -->
+                                            <div class="mb-3">
+                                                <label for="avatarFile" class="form-label fw-medium">Image</label>
+                                                <input name="image" class="form-control" type="file" id="avatarFile"
+                                                    accept=".png, .jpg, .jpeg" />
+                                                <% if (product.image) { %>
+                                                    <img id="avatarPreview" src="/images/product/<%= product.image %>"
+                                                        alt="Product image" />
+                                                    <% } else { %>
+                                                        <img id="avatarPreview" style="display:none"
+                                                            alt="Product image" />
+                                                        <% } %>
+                                            </div>
+
+                                            <!-- Submit -->
+                                            <div class="text-center mt-3">
+                                                <button type="submit" class="btn btn-warning px-4 py-2">
+                                                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                                                    Save Changes
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <%- include('../layout/footer'); -%>
+                </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+        <script src="/admin/js/scripts.js"></script>
+</body>
+
+</html>
